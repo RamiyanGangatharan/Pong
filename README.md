@@ -17,13 +17,13 @@ Pong Game is a modern take on the classic arcade game where you play solo, hitti
 
 ## Controls
 - **Player**:
-  - Move Up: `W`
-  - Move Down: `S`
+  - Move Up: `Arrow Up` or `W`
+  - Move Down: `Arrow Down` or `S`
 
 ## Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/pong-game.git
+    git clone https://github.com/RamiyanGangatharan/Pong.git
     ```
 2. Open the project in Unity.
 3. Ensure all necessary scenes are added to the Build Settings:
@@ -70,7 +70,7 @@ The About section includes:
 4. Assign these UI elements to the `MainMenuController` script in the Unity Inspector.
 
 ## License
-Pong Game © 2024 by John Doe and Jane Smith. All rights reserved.
+This software uses the MIT Licencing policies
 
 ## Special Thanks
 Special thanks to our family and friends for their support during development.
