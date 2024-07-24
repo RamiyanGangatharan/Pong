@@ -22,19 +22,30 @@ public class BallController : MonoBehaviour
 
         // Set initial position slightly off-center towards the left
         float screenHalfWidth = Camera.main.orthographicSize * Camera.main.aspect;
-        float ballXPosition = screenHalfWidth * -0.5f;
+        float ballXPosition = screenHalfWidth * -0.7f;
         transform.position = new Vector3(ballXPosition, 0, 0);
 
         // Launch the ball
         LaunchBall();
     }
 
-    // Launches the ball to the left.
+    // Launches the ball to the right with a throw-like feel.
     void LaunchBall()
     {
-        // Launch the ball to the left with a random y direction using UnityEngine.Random
-        Vector2 direction = new Vector2(1, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized;
-        rb.velocity = direction * speed;
+        // Generate a random y position within a range
+        float randomY = UnityEngine.Random.Range(-3.0f, 3.0f); // Adjust the range as needed
+
+        // Generate a random force magnitude (adjust as needed)
+        float randomForce = UnityEngine.Random.Range(8.0f, 12.0f); // Adjust the range for force
+
+        // Calculate the launch direction with a slight random deviation
+        Vector2 direction = new Vector2(1, randomY).normalized;
+
+        // Apply a random force magnitude to the direction
+        Vector2 throwForce = direction * randomForce;
+
+        // Apply the throw force to the Rigidbody velocity
+        rb.velocity = throwForce;
     }
 
     // Update is called once per frame.
