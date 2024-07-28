@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
@@ -10,16 +8,11 @@ using UnityEngine.SceneManagement;
  */
 public class GameOverMenu : MonoBehaviour
 {
-
     GameController controller = new GameController();
-   public void PlayGame()
+    public void PlayGame()
     {
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(4);
         controller.RestartGame();
     }
-    
-    public void ReturnMenu()
-    {
-        SceneManager.LoadSceneAsync(2);
-    }
+    public void ReturnMenu() { SceneManager.LoadSceneAsync(0); }
 }

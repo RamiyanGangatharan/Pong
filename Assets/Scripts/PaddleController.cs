@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -16,47 +14,28 @@ public class PaddleController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    { HandleMovement(); }
+
+    // Handles the paddle movement based on player input
+    private void HandleMovement()
     {
         float move = Input.GetAxis(inputAxis) * speed * Time.deltaTime;
 
-        // Stop movement if colliding with the top or bottom wall
-        if ((isCollidingWithTopWall && move > 0) || (isCollidingWithBottomWall && move < 0))
-        {
-            move = 0;
-        }
-
+        // Prevent movement if colliding with top or bottom wall
+        if ((isCollidingWithTopWall && move > 0) || (isCollidingWithBottomWall && move < 0)) { move = 0; }
         transform.Translate(0, move, 0);
     }
 
-    // Detect collisions with walls
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Wall"))
-        {
-            if (collision.contacts[0].normal.y > 0)
-            {
-                isCollidingWithBottomWall = true;
-            }
-            else if (collision.contacts[0].normal.y < 0)
-            {
-                isCollidingWithTopWall = true;
-            }
-        }
-    }
+    // Detects collisions with walls
+    void OnCollisionEnter2D(Collision2D collision) { if (collision.collider.CompareTag("Wall")) { SetWallCollisionState(collision, true); } }
 
-    // Detect when the paddle exits collision with walls
-    void OnCollisionExit2D(Collision2D collision)
+    // Detects when the paddle exits collision with walls
+    void OnCollisionExit2D(Collision2D collision) { if (collision.collider.CompareTag("Wall")) { SetWallCollisionState(collision, false); } }
+
+    // Sets the collision state with the walls
+    private void SetWallCollisionState(Collision2D collision, bool isColliding)
     {
-        if (collision.collider.CompareTag("Wall"))
-        {
-            if (collision.contacts[0].normal.y > 0)
-            {
-                isCollidingWithBottomWall = false;
-            }
-            else if (collision.contacts[0].normal.y < 0)
-            {
-                isCollidingWithTopWall = false;
-            }
-        }
+        if (collision.contacts[0].normal.y > 0) { isCollidingWithBottomWall = isColliding; }
+        else if (collision.contacts[0].normal.y < 0) { isCollidingWithTopWall = isColliding; }
     }
 }

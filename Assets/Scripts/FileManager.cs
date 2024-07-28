@@ -8,26 +8,5 @@ using UnityEngine;
  */
 public static class FileManager
 {
-    private static string filePath = Application.persistentDataPath + "/gameData.json";
 
-    // Saves the given game data to a file in JSON format.
-    public static void SaveData(GameData data)
-    {
-        string json = JsonUtility.ToJson(data);
-        File.WriteAllText(filePath, json);
-    }
-
-    // Loads game data from a file. If no file exists, returns a new GameData instance.
-    public static GameData LoadData()
-    {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            return JsonUtility.FromJson<GameData>(json);
-        }
-        else
-        {
-            return new GameData(); // Return a new GameData instance if no file exists
-        }
-    }
 }

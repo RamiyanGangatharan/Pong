@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -455,6 +456,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6a8c03deaddda14a851ac4b113574b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1c9565744d90347af648c37e91a8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &719698420 stripped
@@ -769,6 +782,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1393462662750900777, guid: be3013ed09f14e740aed1f81fab63acf, type: 3}
+      propertyPath: initialSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2904641792208172354, guid: be3013ed09f14e740aed1f81fab63acf, type: 3}
       propertyPath: m_Name
       value: Ball

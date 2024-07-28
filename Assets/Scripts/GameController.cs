@@ -9,49 +9,23 @@ public class GameController : MonoBehaviour
 {
     public GameObject gameOverUI; // Game Over UI panel
 
-    private GameData gameData; // Instance of GameData to hold the current game state
-
     // Start is called before the first frame update.
     // This method initializes the game by loading existing game data and updating the UI.
-    private void Start()
-    {
-        gameData = FileManager.LoadData();
-        gameOverUI.SetActive(false); // Ensure the Game Over UI is initially hidden
-    }
-
-    // Updates the score for a player and saves the game data.
-    public void PlayerScored(int playerNumber)
-    {
-        if (playerNumber == 1)
-        {
-            gameData.player1Score++;
-        }
-        else if (playerNumber == 2)
-        {
-            gameData.player2Score++;
-        }
-        FileManager.SaveData(gameData);
-    }
+    private void Start() { gameOverUI.SetActive(false); }
 
     // Ends the game session and shows the Game Over UI
     public void EndGame()
     {
-        // Show the Game Over UI
+        // Show the Game Over UI, then stop the game time and load the GameOver scene
         gameOverUI.SetActive(true);
-
-        // Optionally, stop the game time
         Time.timeScale = 0f;
-
-        // Load the GameOver scene
         SceneManager.LoadScene("GameOver");
     }
 
-    // Restarts the game by reloading the scene
+    // Reset the game time and load the MainScene to restart the game
     public void RestartGame()
     {
-        Time.timeScale = 1f; // Reset the game time
-
-        // Load the MainScene to restart the game
-        SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene("SinglePlayer");
     }
 }
