@@ -2,17 +2,33 @@
 using UnityEngine.SceneManagement;
 
 /*
- * GameData class is responsible for defining the data structure that holds 
- * the game-related data such as player scores. This class can be extended 
- * to include more game-related data as required.
+ * GameOverMenu class is responsible for handling the game over menu actions 
+ * such as restarting the game or returning to the main menu.
  */
 public class GameOverMenu : MonoBehaviour
 {
-    GameController controller = new GameController();
-    public void PlayGame()
+    private GameController controller;
+
+    private void Start()
     {
-        SceneManager.LoadSceneAsync(4);
+        controller = FindObjectOfType<GameController>();
+    }
+
+    public void PlayGame(string gameMode)
+    {
+        if (gameMode == "Singleplayer")
+        {
+            SceneManager.LoadScene(4); 
+        }
+        else if (gameMode == "Multiplayer")
+        {
+            SceneManager.LoadScene(5); 
+        }
         controller.RestartGame();
     }
-    public void ReturnMenu() { SceneManager.LoadSceneAsync(0); }
+
+    public void ReturnMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); 
+    }
 }

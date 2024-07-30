@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    // TODO FIX THE DAMN PAUSE MENU AS IT DOES NOT STOP TIME
     private float previousTimeScale;
 
     void Update()

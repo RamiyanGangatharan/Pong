@@ -6,24 +6,38 @@ using UnityEngine;
  */
 public class PaddleController : MonoBehaviour
 {
-    public float speed = 20f; // Paddle movement speed
+    public float paddleSpeed = 20f; // Paddle movement paddleSpeed
     public string inputAxis;  // Input axis for controlling the paddle (e.g., "Vertical" or "Vertical2")
+    public string playerTag;  // Tag to differentiate between Player1 and Player2
 
     private bool isCollidingWithTopWall = false;
     private bool isCollidingWithBottomWall = false;
 
     // Update is called once per frame
-    void Update()
-    { HandleMovement(); }
+    void Update() { HandleMovement(); }
 
     // Handles the paddle movement based on player input
     private void HandleMovement()
     {
-        float move = Input.GetAxis(inputAxis) * speed * Time.deltaTime;
+        Vector3 move = Vector3.zero;
 
-        // Prevent movement if colliding with top or bottom wall
-        if ((isCollidingWithTopWall && move > 0) || (isCollidingWithBottomWall && move < 0)) { move = 0; }
-        transform.Translate(0, move, 0);
+        // Check which player this script is controlling based on the playerTag
+        if (playerTag == "Player1")
+        {
+            // Update the move vector based on arrow key inputs for Player1
+            if (Input.GetKey(KeyCode.UpArrow)) { move += Vector3.up; }
+            if (Input.GetKey(KeyCode.DownArrow)) { move += Vector3.down; }
+        }
+        if (playerTag == "Player2")
+        {
+            // Update the move vector based on WASD key inputs for Player2
+            if (Input.GetKey(KeyCode.W)) { move += Vector3.up; }
+            if (Input.GetKey(KeyCode.S)) { move += Vector3.down; }
+        }
+
+        // Prevent movement if colliding with top or bottom wall and apply the movement to the paddle's transform
+        if ((isCollidingWithTopWall && move.y > 0) || (isCollidingWithBottomWall && move.y < 0)) { move = Vector3.zero; }
+        transform.Translate(move * paddleSpeed * Time.deltaTime);
     }
 
     // Detects collisions with walls

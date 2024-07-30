@@ -8,24 +8,30 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public GameObject gameOverUI; // Game Over UI panel
+    private float previousTimeScale;
 
-    // Start is called before the first frame update.
-    // This method initializes the game by loading existing game data and updating the UI.
-    private void Start() { gameOverUI.SetActive(false); }
+    private void Start()
+    {
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+        Time.timeScale = 1f;
+    }
 
-    // Ends the game session and shows the Game Over UI
     public void EndGame()
     {
-        // Show the Game Over UI, then stop the game time and load the GameOver scene
-        gameOverUI.SetActive(true);
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
         Time.timeScale = 0f;
         SceneManager.LoadScene("GameOver");
     }
 
-    // Reset the game time and load the MainScene to restart the game
     public void RestartGame()
     {
-        Time.timeScale = 1f; 
-        SceneManager.LoadScene("SinglePlayer");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -7,38 +7,61 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public float initialSpeed = 2f; // Initial speed of the ball
-    private Rigidbody2D rb;
+    private Rigidbody2D rigidBody;
     private GameController gameController;
 
     // Define boundary limits
-    private float boundaryX = 8f; // Adjust based on your game area
+    private float boundaryRight = 8f;
+    private float boundaryLeft = -8f;
+
+    public string gameMode; // Singleplayer or Multiplayer
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
         gameController = FindObjectOfType<GameController>();
 
-        // Set initial position slightly off-center towards the left
-        float screenHalfWidth = Camera.main.orthographicSize * Camera.main.aspect;
-        float ballXPosition = screenHalfWidth * -0.7f;
+        // Set boundaries based on game mode
+        if (gameMode == "singleplayer")
+        {
+            boundaryLeft = float.NegativeInfinity; // No left boundary for singleplayer
+        }
+
+        // Set initial position at either -5 or 5 on the x-axis
+        float ballXPosition = (Random.Range(0, 2) == 0) ? -5.0f : 5.0f;
         transform.position = new Vector3(ballXPosition, 0, 0);
-        LaunchBall();
+        LaunchBall(ballXPosition);
     }
 
-    // Launches the ball with a random y-direction and speed
-    void LaunchBall()
+    // Launches the ball with a random y-direction and speed, in the opposite direction of the starting position
+    void LaunchBall(float ballXPosition)
     {
         float randomY = Random.Range(-1.0f, 1.0f); // Adjust the range for the initial y-direction
-        Vector2 direction = new Vector2(1, randomY).normalized; // Launch direction
-        rb.velocity = direction * initialSpeed; // Set initial velocity
+        float directionX = ballXPosition < 0 ? 1 : -1; // Launch direction based on starting position
+        Vector2 direction = new Vector2(directionX, randomY).normalized; // Launch direction
+        rigidBody.velocity = direction * initialSpeed; // Set initial velocity
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Check if the ball has crossed the boundary
-        if (transform.position.x > boundaryX) {gameController.EndGame();}
+        if (gameMode == "singleplayer")
+        {
+            if (transform.position.x > boundaryRight || transform.position.x < boundaryLeft)
+            {
+                gameController.EndGame();
+            }
+        }
+        if (gameMode == "multiplayer")
+        {
+            if (transform.position.x > boundaryRight || transform.position.x < boundaryLeft)
+            {
+                gameController.RestartGame();
+            }
+        }
+
+
     }
 
     // Handles the collision of the ball with other objects
@@ -47,24 +70,23 @@ public class BallController : MonoBehaviour
         if (collision.collider.CompareTag("Paddle"))
         {
             // Adjust the ball's velocity based on the paddle's velocity
-            Vector2 velocity = rb.velocity;
-            velocity.y = (rb.velocity.y / 2) + (collision.collider.attachedRigidbody.velocity.y / 3);
-            rb.velocity = velocity;
+            Vector2 velocity = rigidBody.velocity;
+            velocity.y = (rigidBody.velocity.y / 2) + (collision.collider.attachedRigidbody.velocity.y / 3);
+            rigidBody.velocity = velocity;
         }
         else if (collision.collider.CompareTag("Wall"))
         {
             // Reverse the y-velocity to bounce off the wall
-            rb.velocity = new Vector2(rb.velocity.x, -rb.velocity.y);
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, -rigidBody.velocity.y);
         }
     }
 
     // Resets the ball to the initial position and re-launches it
     public void ResetBall()
     {
-        rb.velocity = Vector2.zero;
-        float screenHalfWidth = Camera.main.orthographicSize * Camera.main.aspect;
-        float ballXPosition = screenHalfWidth * -0.7f;
+        rigidBody.velocity = Vector2.zero;
+        float ballXPosition = (Random.Range(0, 2) == 0) ? -5.0f : 5.0f;
         transform.position = new Vector3(ballXPosition, 0, 0);
-        LaunchBall();
+        LaunchBall(ballXPosition);
     }
 }

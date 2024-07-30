@@ -3,14 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuScreen : MonoBehaviour
 {
-    GameController controller = new GameController();
-
-    public void PlayGame()
+    public void PlayGame(string gameMode)
     {
-        SceneManager.LoadSceneAsync(4);
-        controller.RestartGame();
+        if (gameMode == "Singleplayer")
+        {
+            SceneManager.LoadSceneAsync(4); 
+        }
+        else if (gameMode == "Multiplayer")
+        {
+            SceneManager.LoadSceneAsync(5); 
+        }
     }
+
     public void ExitGame() { Application.Quit(); }
-    public void MainMenu() { SceneManager.LoadSceneAsync(0); }
-    public void AboutPage() { SceneManager.LoadSceneAsync(1); }
+    public void MainMenu() { SceneManager.LoadScene("MainMenu"); } 
+    public void AboutPage() { SceneManager.LoadScene("AboutPage"); }
 }
