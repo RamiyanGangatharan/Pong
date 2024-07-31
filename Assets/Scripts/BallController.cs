@@ -7,61 +7,71 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public float initialSpeed = 2f; // Initial speed of the ball
+
     private Rigidbody2D rigidBody;
+
     private GameController gameController;
 
     // Define boundary limits
     private float boundaryRight = 8f;
     private float boundaryLeft = -8f;
 
-    public string gameMode; // Singleplayer or Multiplayer
+    public string gameMode; 
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+
         gameController = FindObjectOfType<GameController>();
 
         // Set boundaries based on game mode
-        if (gameMode == "singleplayer")
+        if (gameMode == "Handball")
         {
             boundaryLeft = float.NegativeInfinity; // No left boundary for singleplayer
         }
 
         // Set initial position at either -5 or 5 on the x-axis
         float ballXPosition = (Random.Range(0, 2) == 0) ? -5.0f : 5.0f;
+
         transform.position = new Vector3(ballXPosition, 0, 0);
+
         LaunchBall(ballXPosition);
     }
 
     // Launches the ball with a random y-direction and speed, in the opposite direction of the starting position
     void LaunchBall(float ballXPosition)
     {
-        float randomY = Random.Range(-1.0f, 1.0f); // Adjust the range for the initial y-direction
-        float directionX = ballXPosition < 0 ? 1 : -1; // Launch direction based on starting position
-        Vector2 direction = new Vector2(directionX, randomY).normalized; // Launch direction
-        rigidBody.velocity = direction * initialSpeed; // Set initial velocity
+        // Adjust the range for the initial y-direction
+        float randomY = Random.Range(-1.0f, 1.0f);
+
+        // Launch direction based on starting position
+        float directionX = ballXPosition < 0 ? 1 : -1;
+
+        // Launch direction
+        Vector2 direction = new Vector2(directionX, randomY).normalized;
+
+        // Set initial velocity
+        rigidBody.velocity = direction * initialSpeed; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameMode == "singleplayer")
+        if (gameMode == "Handball")
         {
             if (transform.position.x > boundaryRight || transform.position.x < boundaryLeft)
             {
                 gameController.EndGame();
             }
         }
-        if (gameMode == "multiplayer")
+        if (gameMode == "Multiplayer" || gameMode == "Singleplayer")
         {
             if (transform.position.x > boundaryRight || transform.position.x < boundaryLeft)
             {
                 gameController.RestartGame();
             }
         }
-
-
     }
 
     // Handles the collision of the ball with other objects
@@ -71,7 +81,9 @@ public class BallController : MonoBehaviour
         {
             // Adjust the ball's velocity based on the paddle's velocity
             Vector2 velocity = rigidBody.velocity;
+
             velocity.y = (rigidBody.velocity.y / 2) + (collision.collider.attachedRigidbody.velocity.y / 3);
+
             rigidBody.velocity = velocity;
         }
         else if (collision.collider.CompareTag("Wall"))
@@ -85,8 +97,11 @@ public class BallController : MonoBehaviour
     public void ResetBall()
     {
         rigidBody.velocity = Vector2.zero;
+
         float ballXPosition = (Random.Range(0, 2) == 0) ? -5.0f : 5.0f;
+
         transform.position = new Vector3(ballXPosition, 0, 0);
+
         LaunchBall(ballXPosition);
     }
 }

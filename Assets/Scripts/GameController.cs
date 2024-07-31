@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public GameObject gameOverUI; // Game Over UI panel
+
     private float previousTimeScale;
 
     private void Start()

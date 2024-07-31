@@ -5,9 +5,13 @@ public class MainMenuScreen : MonoBehaviour
 {
     public void PlayGame(string gameMode)
     {
-        if (gameMode == "Singleplayer")
+        if (gameMode == "Handball")
         {
             SceneManager.LoadSceneAsync(4); 
+        }
+        else if (gameMode == "Singleplayer")
+        {
+            SceneManager.LoadSceneAsync(6);
         }
         else if (gameMode == "Multiplayer")
         {
@@ -15,7 +19,16 @@ public class MainMenuScreen : MonoBehaviour
         }
     }
 
-    public void ExitGame() { Application.Quit(); }
-    public void MainMenu() { SceneManager.LoadScene("MainMenu"); } 
-    public void AboutPage() { SceneManager.LoadScene("AboutPage"); }
+    public void ExitGame() 
+    { 
+        Application.Quit(); 
+    }
+    public void MainMenu() 
+    { 
+        SceneManager.LoadScene("MainMenu"); 
+    } 
+    public void AboutPage() 
+    { 
+        SceneManager.LoadScene("AboutPage"); 
+    }
 }
